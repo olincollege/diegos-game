@@ -3,7 +3,7 @@ Diego's game map implementation.
 """
 
 
-class DiegosGameMap:
+class DiegosGameMap():
     """
     
     """
@@ -18,7 +18,7 @@ class DiegosGameMap:
         # will cause the board to be made up of copies of the same cell,
         # resulting in strange behavior.
         self._size = width, height = 320, 240
-        self._background = 0, 0, 0
+        self._background = (0, 0, 0)
 
     def size(self):
         """

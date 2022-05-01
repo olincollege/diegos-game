@@ -1,8 +1,8 @@
 from abc import abstractclassmethod, abstractmethod
 import sys, pygame
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
-class Entity(pygame.sprite.Sprite):
+class Entity(ABC, pygame.sprite.Sprite):
 
     def __init__(self):
         pass
@@ -13,10 +13,9 @@ class Entity(pygame.sprite.Sprite):
 
 
 class Character(Entity):
-    def __init__(self):
-        self._position = [0, 0]
-        self._velocity = [0, 0]
-        self._health = 5
+    _position = [0, 0]
+    _velocity = [0, 0]
+    _health = 5
 
     @abstractmethod
     def update(self):
@@ -27,6 +26,12 @@ class Player(Character):
     def __init__(self):
         self._image = pygame.image.load("diego.png")
         self._playerrect = self._image.get_rect()
+
+    def playerrect(self):
+        return self._playerrect
+
+    def image(self):
+        return self._image
 
     def update(self):
         self._position[0] += self._velocity[0]
