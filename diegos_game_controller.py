@@ -4,7 +4,7 @@ Diego's game controller.
 import sys, pygame
 from abc import ABC, abstractmethod
 
-class player_controller(ABC):
+class PlayerController(ABC):
     """
     """
     moving_right = False
@@ -23,26 +23,29 @@ class player_controller(ABC):
         """
         return self._map
 
-    def movement(self):
+    def get_movement(self):
         """
         """
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    moving_right = True
-                if event.key == pygame.K_LEFT:
-                    moving_left = True
-                if event.key == pygame.K_UP:
-                    moving_up = True
-                if event.key == pygame.K_DOWN:
-                    moving_down = True
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    moving_right = False
-                if event.key == pygame.K_LEFT:
-                    moving_left = False
-                if event.key == pygame.K_UP:
-                    moving_up = False
-                if event.key == pygame.K_DOWN:
-                    moving_down = False
-        return [moving_down, moving_left, moving_right, moving_up]
+        keystate = pygame.key.get_pressed()
+
+        self.moving_right = False
+        self.moving_left = False
+        self.moving_up = False
+        self.moving_down = False
+
+        if keystate[pygame.K_LEFT]:
+            self.moving_left = True
+        if keystate[pygame.K_RIGHT]:
+            self.moving_right = True
+        if keystate[pygame.K_UP]:
+            self.moving_up = True
+        if keystate[pygame.K_DOWN]:
+            self.moving_down = True
+
+        return [
+            self.moving_left,
+            self.moving_right,
+            self.moving_up,
+            self.moving_down
+            ]
+        

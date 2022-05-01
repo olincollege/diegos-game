@@ -1,10 +1,12 @@
 import sys, pygame
-from entity import Player
+from entity import Player, Bullet
 from diegos_game_map import DiegosGameMap
+from diegos_game_controller import PlayerController
 
+clock = pygame.time.Clock()
 pygame.init()
 
-size = width, height = 320, 240
+size = width, height = 600, 400
 black = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
@@ -14,37 +16,26 @@ diegoimage = pygame.image.load("diego.png")
 #diegospeed = [2, 0]
 
 def main():
-    diego = Player()
     map = DiegosGameMap()
+    controller = PlayerController(map)
+    diego = Player(controller)
+    bullet = Bullet(diego)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()                
                 sys.exit()
-
+        
         diego.update()
+        bullet.update()
 
         # This part should be in the view class
         screen.fill((0, 0, 0))
         screen.blit(diego.image(), diego.playerrect())
+        screen.blit(bullet.image(), bullet.bulletrect())
         pygame.display.flip()
 
-# def main():
-#     global diegorect
-#     while True:
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 pygame.quit()                
-#                 sys.exit()
-
-#         diegorect = diegorect.move(diegospeed)
-
-#         if diegorect.left < 0 or diegorect.right > width:
-#             diegospeed[0] = -diegospeed[0]
-
-#         screen.fill(black)
-#         screen.blit(diego, diegorect)
-#         pygame.display.flip()
+        clock.tick(60)
 
 main()

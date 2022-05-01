@@ -2,10 +2,22 @@ from abc import abstractclassmethod, abstractmethod
 import sys, pygame
 from abc import ABC, abstractmethod
 
+SPEED = 1
+
 class Entity(ABC, pygame.sprite.Sprite):
+    _position = [0, 0]
+    _velocity = [0, 0]
 
     def __init__(self):
         pass
+
+    @property
+    def position(self):
+        return self._position
+
+    @property
+    def velocity(self):
+        return self._velocity
 
     @abstractmethod
     def update(self):
@@ -13,8 +25,6 @@ class Entity(ABC, pygame.sprite.Sprite):
 
 
 class Character(Entity):
-    _position = [0, 0]
-    _velocity = [0, 0]
     _health = 5
 
     @abstractmethod
@@ -23,9 +33,10 @@ class Character(Entity):
 
 
 class Player(Character):
-    def __init__(self):
+    def __init__(self, controller):
         self._image = pygame.image.load("diego.png")
         self._playerrect = self._image.get_rect()
+        self._controller = controller
 
     def playerrect(self):
         return self._playerrect
@@ -34,6 +45,40 @@ class Player(Character):
         return self._image
 
     def update(self):
+        self._velocity[0] = 0
+        self._velocity[1] = 0
+
+        keys = self._controller.get_movement()
+        if keys[0]: # Left
+            self._velocity[0] = -1 * SPEED
+        if keys[1]: # Right
+            self._velocity[0] = 1 * SPEED
+        if keys[2]: # Up
+            self._velocity[1] = -1 * SPEED
+        if keys[3]: # Down
+            self._velocity[1] = 1 * SPEED
+        
         self._position[0] += self._velocity[0]
         self._position[1] += self._velocity[1]
         self._playerrect = self._playerrect.move(self._velocity)
+
+
+class Bullet(Entity):
+    def __init__(self, player):
+        self._position = player.position
+        self._image = pygame.image.load("bullet.png")
+        self._bulletrect = self._image.get_rect()
+        self._velocity[0] = 1
+        self._velocity[1] = 1
+
+    def bulletrect(self):
+        return self._bulletrect
+
+    def image(self):
+        return self._image
+
+    def update(self):
+        print(self._velocity)
+        self._position[0] += 1#self._velocity[0]
+        self._position[1] += 1#self._velocity[1]
+        self._bulletrect = self._bulletrect.move(self._velocity)
