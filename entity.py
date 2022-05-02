@@ -63,7 +63,7 @@ class Player(Character):
         self._playerrect = self._playerrect.move(self._velocity)
 
 
-class Bullet(Entity):
+class Bullet(Entity, pygame.sprite.Sprite):
     def __init__(self, player, direction):
         self._position = player.position
         self._image = pygame.image.load("bullet.png")
@@ -87,9 +87,13 @@ class Bullet(Entity):
     def position(self):
         return self._position
 
+    # def touching_border(self, size):
+    #     if 0 > self._bulletrect.left or self._bulletrect.left > size[0]:
+    #         self.kill()
+    #     if 0 > self._bulletrect.top or self._bulletrect.top > size[0]:
+    #         self.kill()
+
     def update(self):
-        print(self._velocity)
-        print(f"POS = {self._position}")
         self._position[0] += 0#self._velocity[0]
         self._position[1] += 0#self._velocity[1]
         self._bulletrect = self._bulletrect.move(self._velocity)

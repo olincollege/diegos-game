@@ -19,6 +19,7 @@ def main():
     diego = Player(controller)
     bulletNum = 0
     bullets = []
+    reloadCount = 0
 
     while True:
         map.fill_map(0,0,0)
@@ -26,26 +27,31 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()                
                 sys.exit()
-
-        if controller.shot() == 1:
-            bullets.append(Bullet(diego, 1))
-            bulletNum = 1
-        if controller.shot() == 2:
-            bullets.append(Bullet(diego, 2))
-            bulletNum = 1
-        if controller.shot() == 3:
-            bullets.append(Bullet(diego, 3))
-            bulletNum = 1
-        if controller.shot() == 4:
-            bullets.append(Bullet(diego, 4))
-            bulletNum = 1
+        if reloadCount < 0:
+            if controller.shot() == 1:
+                bullets.append(Bullet(diego, 1))
+                bulletNum = 1
+                reloadCount = 30
+            if controller.shot() == 2:
+                bullets.append(Bullet(diego, 2))
+                bulletNum = 1
+                reloadCount = 30
+            if controller.shot() == 3:
+                bullets.append(Bullet(diego, 3))
+                bulletNum = 1
+                reloadCount = 30
+            if controller.shot() == 4:
+                bullets.append(Bullet(diego, 4))
+                bulletNum = 1
+                reloadCount = 30
+        reloadCount -= 1
 
         if bulletNum > 0:
-            print(bulletNum)
             for bullet in bullets:
                 bullet.update()
                 map.display_object(bullet.image(), bullet.bulletrect())
-                print("*********")
+                #bullet.touching_border(map.size())
+            #print(len(bullets))
             
 
         
