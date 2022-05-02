@@ -64,12 +64,19 @@ class Player(Character):
 
 
 class Bullet(Entity):
-    def __init__(self, player):
+    def __init__(self, player, direction):
         self._position = player.position
         self._image = pygame.image.load("bullet.png")
         self._bulletrect = self._image.get_rect()
-        self._velocity[0] = 1
-        self._velocity[1] = 1
+        self._bulletrect = self._bulletrect.move(player.position)
+        if direction == 1:
+            self._velocity = 0,-2
+        if direction == 2:
+            self._velocity = 2,0
+        if direction == 3:
+            self._velocity = 0,2
+        if direction == 4:
+            self._velocity = -2,0
 
     def bulletrect(self):
         return self._bulletrect
@@ -77,8 +84,12 @@ class Bullet(Entity):
     def image(self):
         return self._image
 
+    def position(self):
+        return self._position
+
     def update(self):
         print(self._velocity)
-        self._position[0] += 1#self._velocity[0]
-        self._position[1] += 1#self._velocity[1]
+        print(f"POS = {self._position}")
+        self._position[0] += 0#self._velocity[0]
+        self._position[1] += 0#self._velocity[1]
         self._bulletrect = self._bulletrect.move(self._velocity)

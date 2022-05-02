@@ -33,13 +33,13 @@ class PlayerController(ABC):
         self.moving_up = False
         self.moving_down = False
 
-        if keystate[pygame.K_LEFT]:
+        if keystate[pygame.K_a]:
             self.moving_left = True
-        if keystate[pygame.K_RIGHT]:
+        if keystate[pygame.K_d]:
             self.moving_right = True
-        if keystate[pygame.K_UP]:
+        if keystate[pygame.K_w]:
             self.moving_up = True
-        if keystate[pygame.K_DOWN]:
+        if keystate[pygame.K_s]:
             self.moving_down = True
 
         return [
@@ -48,4 +48,31 @@ class PlayerController(ABC):
             self.moving_up,
             self.moving_down
             ]
+    def shot(self):
+
+
+        keystate = pygame.key.get_pressed()
+
+        if keystate[pygame.K_RIGHT]:
+            return 2
+        if keystate[pygame.K_LEFT]:
+            return 4
+        if keystate[pygame.K_UP]:
+            return 1
+        if keystate[pygame.K_DOWN]:
+            return 3
+        return 5
+
+    def last_pressed(self):
+        keystate = pygame.key.get_pressed()
+
+        if keystate[pygame.K_RIGHT]:
+            return 2
+        if keystate[pygame.K_LEFT]:
+            return 4
+        if keystate[pygame.K_UP]:
+            return 1
+        if keystate[pygame.K_DOWN]:
+            return 3
+        return 2
         
