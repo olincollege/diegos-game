@@ -33,10 +33,11 @@ class Character(Entity):
 
 
 class Player(Character):
-    def __init__(self, controller):
+    def __init__(self, controller, map):
         self._image = pygame.image.load("diego.png")
         self._playerrect = self._image.get_rect()
         self._controller = controller
+        self._map = map
 
     def playerrect(self):
         return self._playerrect
@@ -61,6 +62,7 @@ class Player(Character):
         self._position[0] += self._velocity[0]
         self._position[1] += self._velocity[1]
         self._playerrect = self._playerrect.move(self._velocity)
+        self._playerrect = self._playerrect.clamp(self._map.screenrect())
 
 
 class Bullet(Entity, pygame.sprite.Sprite):

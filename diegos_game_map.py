@@ -2,6 +2,7 @@
 Diego's game map implementation.
 """
 import sys, pygame
+from pygame.locals import *
 
 
 class DiegosGameMap():
@@ -19,8 +20,14 @@ class DiegosGameMap():
         # will cause the board to be made up of copies of the same cell,
         # resulting in strange behavior.
         self._size = width, height = 320, 240
+        self._screenrect = Rect(0, 0, width, height)
         self._background = (0, 0, 0)
         self.screen = pygame.display.set_mode(self._size)
+
+    def screenrect(self):
+        """
+        """
+        return self._screenrect
 
     def size(self):
         """

@@ -16,7 +16,7 @@ pygame.init()
 def main():
     map = DiegosGameMap()
     controller = PlayerController(map)
-    diego = Player(controller)
+    diego = Player(controller, map)
     bulletNum = 0
     bullets = []
     reloadCount = 0
