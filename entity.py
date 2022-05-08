@@ -43,6 +43,10 @@ class Player(Character):
     def playerrect(self):
         return self._playerrect
 
+    @property
+    def velocity(self):
+        return (self._velocity[0], self._velocity[1])
+
     def image(self):
         return self._image
 
@@ -63,31 +67,32 @@ class Player(Character):
         self._position[0] += self._velocity[0]
         self._position[1] += self._velocity[1]
         self._playerrect = self._playerrect.move(self._velocity)
-        self._playerrect = self._playerrect.clamp(self._map.screenrect())
+        self._playerrect = self._playerrect.clamp(self._map.screenrect)
 
 
 class Bullet(Entity, pygame.sprite.Sprite):
     def __init__(self, player, map, direction):
+        pygame.sprite.Sprite.__init__(self)
         self._position = player.position
         self._map = map
-        self._image = pygame.image.load("bullet.png")
-        self._bulletrect = self._image.get_rect(center=(player.playerrect.centerx, player.playerrect.centery))
+        self.image = pygame.image.load("bullet.png")
+        self.rect = self.image.get_rect(center=(player.playerrect.centerx, player.playerrect.centery))
         #self._bulletrect = self._image.get_rect(center=player.position)
         #self._bulletrect = self._bulletrect.move(player._playerrect().centerx, player._playerrect().centery)
         if direction == 1:
-            self._velocity = 0,-2
+            self._velocity = player.velocity[0],player.velocity[1]-2
         if direction == 2:
-            self._velocity = 2,0
+            self._velocity = player.velocity[0]+2,player.velocity[1]
         if direction == 3:
-            self._velocity = 0,2
+            self._velocity = player.velocity[0],player.velocity[1]+2
         if direction == 4:
-            self._velocity = -2,0
+            self._velocity = player.velocity[0]-2,player.velocity[1]
 
     def bulletrect(self):
-        return self._bulletrect
+        return self.rect
 
     def image(self):
-        return self._image
+        return self.image
 
     def position(self):
         return self._position
@@ -99,9 +104,16 @@ class Bullet(Entity, pygame.sprite.Sprite):
     #         self.kill()
 
     def update(self):
+        print(self._velocity)
+
         self._position[0] += 0#self._velocity[0]
         self._position[1] += 0#self._velocity[1]
-        self._bulletrect = self._bulletrect.move(self._velocity)
+        self.rect = self.rect.move(self._velocity)
 
-        if self._bulletrect.top < 10:
+        if(
+            self.rect.top < self._map.screenrect.top
+            or self.rect.bottom > self._map.screenrect.bottom
+            or self.rect.left < self._map.screenrect.left
+            or self.rect.right > self._map.screenrect.right
+        ):
             self.kill()

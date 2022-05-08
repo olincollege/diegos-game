@@ -24,6 +24,7 @@ class DiegosGameMap():
         self._background = (0, 0, 0)
         self.screen = pygame.display.set_mode(self._size)
 
+    @property
     def screenrect(self):
         """
         """

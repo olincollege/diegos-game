@@ -17,9 +17,9 @@ def main():
     map = DiegosGameMap()
     controller = PlayerController(map)
     diego = Player(controller, map)
-    bulletNum = 0
-    bullets = []
     reloadCount = 0
+
+    bullets = pygame.sprite.Group()
 
     while True:
         map.fill_map(0,0,0)
@@ -29,31 +29,22 @@ def main():
                 sys.exit()
         if reloadCount < 0:
             if controller.shot() == 1:
-                bullets.append(Bullet(diego, map, 1))
-                bulletNum = 1
+                bullets.add(Bullet(diego, map, 1))
                 reloadCount = 30
             if controller.shot() == 2:
-                bullets.append(Bullet(diego, map, 2))
-                bulletNum = 1
+                bullets.add(Bullet(diego, map, 2))
                 reloadCount = 30
             if controller.shot() == 3:
-                bullets.append(Bullet(diego, map, 3))
-                bulletNum = 1
+                bullets.add(Bullet(diego, map, 3))
                 reloadCount = 30
             if controller.shot() == 4:
-                bullets.append(Bullet(diego, map, 4))
-                bulletNum = 1
+                bullets.add(Bullet(diego, map, 4))
                 reloadCount = 30
         reloadCount -= 1
 
-        if bulletNum > 0:
-            for bullet in bullets:
-                bullet.update()
-                map.display_object(bullet.image(), bullet.bulletrect())
-                #bullet.touching_border(map.size())
-            print(len(bullets))
-            
-
+        bullets.update()
+        bullets.draw(map.screen)
+        #print(diego.velocity)
         
         diego.update()
 
