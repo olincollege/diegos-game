@@ -39,6 +39,7 @@ class Player(Character):
         self._controller = controller
         self._map = map
 
+    @property
     def playerrect(self):
         return self._playerrect
 
@@ -66,11 +67,13 @@ class Player(Character):
 
 
 class Bullet(Entity, pygame.sprite.Sprite):
-    def __init__(self, player, direction):
+    def __init__(self, player, map, direction):
         self._position = player.position
+        self._map = map
         self._image = pygame.image.load("bullet.png")
-        self._bulletrect = self._image.get_rect()
-        self._bulletrect = self._bulletrect.move(player.position)
+        self._bulletrect = self._image.get_rect(center=(player.playerrect.centerx, player.playerrect.centery))
+        #self._bulletrect = self._image.get_rect(center=player.position)
+        #self._bulletrect = self._bulletrect.move(player._playerrect().centerx, player._playerrect().centery)
         if direction == 1:
             self._velocity = 0,-2
         if direction == 2:
@@ -99,3 +102,6 @@ class Bullet(Entity, pygame.sprite.Sprite):
         self._position[0] += 0#self._velocity[0]
         self._position[1] += 0#self._velocity[1]
         self._bulletrect = self._bulletrect.move(self._velocity)
+
+        if self._bulletrect.top < 10:
+            self.kill()

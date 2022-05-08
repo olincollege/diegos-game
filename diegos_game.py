@@ -29,19 +29,19 @@ def main():
                 sys.exit()
         if reloadCount < 0:
             if controller.shot() == 1:
-                bullets.append(Bullet(diego, 1))
+                bullets.append(Bullet(diego, map, 1))
                 bulletNum = 1
                 reloadCount = 30
             if controller.shot() == 2:
-                bullets.append(Bullet(diego, 2))
+                bullets.append(Bullet(diego, map, 2))
                 bulletNum = 1
                 reloadCount = 30
             if controller.shot() == 3:
-                bullets.append(Bullet(diego, 3))
+                bullets.append(Bullet(diego, map, 3))
                 bulletNum = 1
                 reloadCount = 30
             if controller.shot() == 4:
-                bullets.append(Bullet(diego, 4))
+                bullets.append(Bullet(diego, map, 4))
                 bulletNum = 1
                 reloadCount = 30
         reloadCount -= 1
@@ -51,7 +51,7 @@ def main():
                 bullet.update()
                 map.display_object(bullet.image(), bullet.bulletrect())
                 #bullet.touching_border(map.size())
-            #print(len(bullets))
+            print(len(bullets))
             
 
         
@@ -59,7 +59,7 @@ def main():
 
         # This part should be in the view class
         
-        map.display_object(diego.image(), diego.playerrect())
+        map.display_object(diego.image(), diego.playerrect)
         pygame.display.flip()
 
         clock.tick(60)
