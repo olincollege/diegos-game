@@ -50,20 +50,17 @@ class Enemy(Character):
         self._position = start_position
 
     def update(self):
-        # if self.rect.centerx > self._player.playerrect.centerx:
-        #     self.rect.move_ip(-1, 0)
-        # if self.rect.centerx < self._player.playerrect.centerx:
-        #     self.rect.move_ip(1, 0)
-        # if self.rect.centery < self._player.playerrect.centery:
-        #     self.rect.move_ip(0, 1)
-        # if self.rect.centery > self._player.playerrect.centery:
-        #     self.rect.move_ip(0, -1)
-
-        angle = math.degrees(math.atan(
-            (self.rect.centery - self._player.playerrect.centery)/
-            (self.rect.centerx - self._player.playerrect.centerx)
-            ))
-        print('Angle to player: ', angle)
+        distance_to_player = math.hypot(
+            self.rect.centerx - self._player.playerrect.centerx,
+            self.rect.centery - self._player.playerrect.centery
+        )
+        x_comp = 0
+        y_comp = 0
+        if distance_to_player != 0:
+            x_comp = (self._player.playerrect.centerx - self.rect.centerx)/distance_to_player
+            y_comp = (self._player.playerrect.centery - self.rect.centery)/distance_to_player
+        self._position = (self._position[0] + x_comp, self._position[1] + y_comp)
+        self.rect.center = self._position
 
 
 class Player(Character):
