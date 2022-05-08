@@ -1,6 +1,8 @@
 from abc import abstractclassmethod, abstractmethod
 import sys, pygame
 from abc import ABC, abstractmethod
+import random
+import math
 
 SPEED = 1
 
@@ -30,6 +32,38 @@ class Character(Entity):
     @abstractmethod
     def update(self):
         pass
+
+class Enemy(Character):
+    def __init__(self, player, map):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("enemy.png")
+        self._map = map
+        self._player = player
+
+
+        start_position = (
+            random.randrange(0, self._map.screenrect.right),
+            random.randrange(0, self._map.screenrect.bottom)
+            
+        )
+        self.rect = self.image.get_rect(center=(start_position))
+        self._position = start_position
+
+    def update(self):
+        # if self.rect.centerx > self._player.playerrect.centerx:
+        #     self.rect.move_ip(-1, 0)
+        # if self.rect.centerx < self._player.playerrect.centerx:
+        #     self.rect.move_ip(1, 0)
+        # if self.rect.centery < self._player.playerrect.centery:
+        #     self.rect.move_ip(0, 1)
+        # if self.rect.centery > self._player.playerrect.centery:
+        #     self.rect.move_ip(0, -1)
+
+        angle = math.degrees(math.atan(
+            (self.rect.centery - self._player.playerrect.centery)/
+            (self.rect.centerx - self._player.playerrect.centerx)
+            ))
+        print('Angle to player: ', angle)
 
 
 class Player(Character):
@@ -104,11 +138,9 @@ class Bullet(Entity, pygame.sprite.Sprite):
     #         self.kill()
 
     def update(self):
-        print(self._velocity)
-
         self._position[0] += 0#self._velocity[0]
         self._position[1] += 0#self._velocity[1]
-        self.rect = self.rect.move(self._velocity)
+        self.rect.move_ip(self._velocity)
 
         if(
             self.rect.top < self._map.screenrect.top

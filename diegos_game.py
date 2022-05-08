@@ -1,5 +1,5 @@
 import sys, pygame
-from entity import Player, Bullet
+from entity import Player, Bullet, Enemy
 from diegos_game_map import DiegosGameMap
 from diegos_game_controller import PlayerController
 
@@ -18,6 +18,9 @@ def main():
     controller = PlayerController(map)
     diego = Player(controller, map)
     reloadCount = 0
+
+    enemies = pygame.sprite.Group()
+    enemies.add(Enemy(diego, map))
 
     bullets = pygame.sprite.Group()
 
@@ -44,6 +47,8 @@ def main():
 
         bullets.update()
         bullets.draw(map.screen)
+        enemies.update()
+        enemies.draw(map.screen)
         #print(diego.velocity)
         
         diego.update()
