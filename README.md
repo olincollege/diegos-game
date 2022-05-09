@@ -32,7 +32,7 @@ See Links section below to download the game
 
 ## Links
 
-[GitHub Repo Link](https://github.com/olincollege/diegos-game/?target=_blank)
+[GitHub Repo Link](https://github.com/olincollege/diegos-game)
 
 [Project Download Link](https://github.com/olincollege/diegos-game/archive/refs/heads/main.zip)
 
@@ -40,12 +40,12 @@ See Links section below to download the game
 
 We used [Pygame](https://www.pygame.org/news) to aid us in creating our game.
 
-## About the Creators
+# About the Creators
 
-### Milo Song-Weiss
+## Milo Song-Weiss
 
 He procrastinates a lot.
 
-### Diego Riverbay
+## Diego Riverbay
 
 He also procrastinates a lot.
