@@ -8,7 +8,7 @@ When tasked with creating an interactive program, we jumped on the idea of it be
 
 ### Unique Features
 
-add unique features
+Our game has various parts that stand out. Some of those include the controlled character having inertia, making movement less choppy and more realistic. Additionally, we have several different enemies that move at different speeds and take anywhere from one to three hits to be defeated. One more interesting thing is the increasing difficulty as the player defeats each enemy, making the game much more challenging as time goes on.
 
 ### Game Demo
 
@@ -27,6 +27,8 @@ See if it has succesfully installed by running the included example:
 
 `python3 -m pygame.examples.aliens`
 
+See Links section below to download the game
+
 
 ## Links
 
@@ -34,13 +36,16 @@ See if it has succesfully installed by running the included example:
 
 [Project Download Link](https://github.com/olincollege/diegos-game/archive/refs/heads/main.zip)
 
+## External Resources
 
-## About the Creators
+We used [Pygame](https://www.pygame.org/news) to aid us in creating our game.
 
-### Milo Song-Weiss
+# About the Creators
+
+## Milo Song-Weiss
 
 He procrastinates a lot.
 
-### Diego Riverbay
+## Diego Riverbay
 
 He also procrastinates a lot.
