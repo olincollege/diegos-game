@@ -12,7 +12,7 @@ Our game has various parts that stand out. Some of those include the controlled 
 
 ### Game Demo
 
-![Alt Text](Screen Recording.gif)
+![gif](/diegos-game/Screen Recording.gif)
 
 
 ## Setup
