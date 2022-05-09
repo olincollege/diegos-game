@@ -34,20 +34,34 @@ class Character(Entity):
         pass
 
 class Enemy(Character):
-    def __init__(self, player, map):
+    _health = 3
+    _speed = 0.5
+    images = ()
+    def __init__(self, player, map, health=1, speed=0.5):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("enemy.png")
+        self._health = health
+        self._speed = speed
+        self.image = self.images[self._health - 1]
         self._map = map
         self._player = player
 
-
+        # start_position = (
+        #     random.randrange(0, self._map.screenrect.right),
+        #     random.randrange(0, self._map.screenrect.bottom)
+        # )
+        distance = math.hypot(self._map.screenrect.width, self._map.screenrect.height) + 5
         start_position = (
-            random.randrange(0, self._map.screenrect.right),
-            random.randrange(0, self._map.screenrect.bottom)
-            
+            distance*math.cos(random.random()*2*math.pi),
+            distance*math.sin(random.random()*2*math.pi)
         )
+
         self.rect = self.image.get_rect(center=(start_position))
         self._position = start_position
+
+    def hurt(self):
+        self._health = self._health - 1
+        self.image = self.images[self._health - 1]
+        if self._health <= 0: self.kill()
 
     def update(self):
         distance_to_player = math.hypot(
@@ -59,27 +73,28 @@ class Enemy(Character):
         if distance_to_player != 0:
             x_comp = (self._player.playerrect.centerx - self.rect.centerx)/distance_to_player
             y_comp = (self._player.playerrect.centery - self.rect.centery)/distance_to_player
-        self._position = (self._position[0] + x_comp, self._position[1] + y_comp)
+        self._position = (self._position[0] + x_comp*self._speed, self._position[1] + y_comp*self._speed)
         self.rect.center = self._position
 
 
 class Player(Character):
     def __init__(self, controller, map):
-        self._image = pygame.image.load("diego.png")
-        self._playerrect = self._image.get_rect()
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("diego.png")
+        self.rect = self.image.get_rect(center=(map.screenrect.center))
         self._controller = controller
         self._map = map
 
     @property
     def playerrect(self):
-        return self._playerrect
+        return self.rect
 
     @property
     def velocity(self):
         return (self._velocity[0], self._velocity[1])
 
     def image(self):
-        return self._image
+        return self.image
 
     def update(self):
         self._velocity[0] = 0
@@ -97,16 +112,18 @@ class Player(Character):
         
         self._position[0] += self._velocity[0]
         self._position[1] += self._velocity[1]
-        self._playerrect = self._playerrect.move(self._velocity)
-        self._playerrect = self._playerrect.clamp(self._map.screenrect)
+        self.rect = self.rect.move(self._velocity)
+        self.rect = self.rect.clamp(self._map.screenrect)
 
 
 class Bullet(Entity, pygame.sprite.Sprite):
+    images = ()
+
     def __init__(self, player, map, direction):
         pygame.sprite.Sprite.__init__(self)
         self._position = player.position
         self._map = map
-        self.image = pygame.image.load("bullet.png")
+        self.image = self.images[0]
         self.rect = self.image.get_rect(center=(player.playerrect.centerx, player.playerrect.centery))
         #self._bulletrect = self._image.get_rect(center=player.position)
         #self._bulletrect = self._bulletrect.move(player._playerrect().centerx, player._playerrect().centery)

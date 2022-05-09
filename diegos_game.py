@@ -1,4 +1,7 @@
 import sys, pygame
+import random
+
+from scipy.fftpack import diff
 from entity import Player, Bullet, Enemy
 from diegos_game_map import DiegosGameMap
 from diegos_game_controller import PlayerController
@@ -14,13 +17,34 @@ pygame.init()
 
 
 def main():
+    # Initialize MVC
     map = DiegosGameMap()
     controller = PlayerController(map)
     diego = Player(controller, map)
-    reloadCount = 0
+
+    # Initialize counters
+    reload_count = 0
+    spawn_count = 0
+    difficulty = 0
+
+    # Load sprite images
+    enemy_images = (
+        pygame.image.load("enemy1.png"),
+        pygame.image.load("enemy2.png"),
+        pygame.image.load("enemy3.png")
+    )
+    Enemy.images = enemy_images
+
+    bullet_images = (
+        pygame.image.load("bullet.png"),
+        None
+    )
+    Bullet.images = bullet_images
+
+    diegos = pygame.sprite.Group()
+    diegos.add(diego)
 
     enemies = pygame.sprite.Group()
-    enemies.add(Enemy(diego, map))
 
     bullets = pygame.sprite.Group()
 
@@ -30,32 +54,52 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()                
                 sys.exit()
-        if reloadCount < 0:
+        if reload_count < 0:
             if controller.shot() == 1:
                 bullets.add(Bullet(diego, map, 1))
-                reloadCount = 30
+                reload_count = 30
             if controller.shot() == 2:
                 bullets.add(Bullet(diego, map, 2))
-                reloadCount = 30
+                reload_count = 30
             if controller.shot() == 3:
                 bullets.add(Bullet(diego, map, 3))
-                reloadCount = 30
+                reload_count = 30
             if controller.shot() == 4:
                 bullets.add(Bullet(diego, map, 4))
-                reloadCount = 30
-        reloadCount -= 1
+                reload_count = 30
+        reload_count -= 1
+        
+        if spawn_count < 0:
+            rand = random.random()
+            if rand > 0.3:
+                enemies.add(Enemy(diego, map, health=1, speed=0.5))
+            elif rand > 0.1:
+                enemies.add(Enemy(diego, map, health=2, speed=0.3))
+            else:
+                enemies.add(Enemy(diego, map, health=3, speed=0.2))
+            spawn_count = 60*1.7
+        spawn_count -= 1 + difficulty
+
+        for enemy in pygame.sprite.groupcollide(enemies, bullets, 0, 1).keys():
+            enemy.hurt()
+            difficulty += 0.03
+            print('Difficulty: ', difficulty)
+
+        for diego in pygame.sprite.groupcollide(diegos, enemies, 1, 0).keys():
+            print('You died!')
+            pygame.quit()
+            sys.exit()
 
         bullets.update()
         bullets.draw(map.screen)
         enemies.update()
         enemies.draw(map.screen)
-        #print(diego.velocity)
-        
-        diego.update()
+        diegos.update()
+        diegos.draw(map.screen)
 
         # This part should be in the view class
         
-        map.display_object(diego.image(), diego.playerrect)
+        
         pygame.display.flip()
 
         clock.tick(60)
