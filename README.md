@@ -49,7 +49,7 @@ We used [Pygame](https://www.pygame.org/news) to aid us in creating our game.
 
 ## Milo Song-Weiss
 
-He procrastinates a lot.
+Milo loves anything outdoors. You can find him practicing catch-and-release in the beautiful secluded streams of New Hampshire, documenting wild specimen of Brook Trout. When he's not in the wilderness, you can find Milo in the ISIM room repairing his broken drones because he loves to fly and crash drones.
 
 ## Diego Riverbay
 
