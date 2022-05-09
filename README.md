@@ -14,6 +14,10 @@ Our game has various parts that stand out. Some of those include the controlled 
 
 ![gif](/diegos-game/Screen Recording.gif)
 
+### Game Video
+
+![Game Video](https://youtu.be/iR_xaR4zmPA)
+
 
 ## Setup
 
