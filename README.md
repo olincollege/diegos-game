@@ -12,7 +12,7 @@ Our game has various parts that stand out. Some of those include the controlled 
 
 ### Game Demo
 
-add gif or smthn
+![Alt Text](Screen Recording.gif)
 
 
 ## Setup
