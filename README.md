@@ -8,7 +8,7 @@ When tasked with creating an interactive program, we jumped on the idea of it be
 
 ### Unique Features
 
-Our game has various parts that stand out. Some of those include the controlled character having inertia, making movement less choppy and more realistic. Additionally, we have several different enemies that move at different speeds and take anywhere from one to three hits to be defeated. One more interesting thing is the increasing difficulty as the player defeats each enemy, making the game much more challenging as time goes on.
+Our game has various parts that stand out. Some of those include the controlled character having inertia, making movement less choppy and more realistic along with affecting projectile velocity and direction. Additionally, we have several different enemies that move at different speeds and take anywhere from one to three hits to be defeated. One more interesting thing is the increasing difficulty as the player defeats each enemy, making the game much more challenging as time goes on.
 
 ### Game Demo
 
