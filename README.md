@@ -16,6 +16,7 @@ Our game has various parts that stand out. Some of those include the controlled 
 
 ### Game Video
 
+![video](/diegos-game/DiegosGameVideo.webm)
 [Game Video](https://youtu.be/iR_xaR4zmPA)
 
 
