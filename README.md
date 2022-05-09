@@ -16,7 +16,7 @@ Our game has various parts that stand out. Some of those include the controlled 
 
 ### Game Video
 
-![Game Video](<iframe width="866" height="487" src="https://www.youtube.com/embed/iR_xaR4zmPA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>)
+[Game Video](https://youtu.be/iR_xaR4zmPA)
 
 
 ## Setup
