@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 import random
 import math
 
-SPEED = 1
+SPEED = 0.2
 
 class Entity(ABC, pygame.sprite.Sprite):
     _position = [0, 0]
@@ -61,7 +61,10 @@ class Enemy(Character):
     def hurt(self):
         self._health = self._health - 1
         self.image = self.images[self._health - 1]
-        if self._health <= 0: self.kill()
+        if self._health <= 0:
+            self.kill()
+            return True
+        return False
 
     def update(self):
         distance_to_player = math.hypot(
@@ -82,6 +85,7 @@ class Player(Character):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("diego.png")
         self.rect = self.image.get_rect(center=(map.screenrect.center))
+        self._position = self.rect.center
         self._controller = controller
         self._map = map
 
@@ -91,29 +95,28 @@ class Player(Character):
 
     @property
     def velocity(self):
-        return (self._velocity[0], self._velocity[1])
+        return self._velocity
 
     def image(self):
         return self.image
 
     def update(self):
-        self._velocity[0] = 0
-        self._velocity[1] = 0
+        self._velocity[0] *= 0.9
+        self._velocity[1] *= 0.9
+
 
         keys = self._controller.get_movement()
         if keys[0]: # Left
-            self._velocity[0] = -1 * SPEED
+            self._velocity[0] -= 1 * SPEED
         if keys[1]: # Right
-            self._velocity[0] = 1 * SPEED
+            self._velocity[0] += 1 * SPEED
         if keys[2]: # Up
-            self._velocity[1] = -1 * SPEED
+            self._velocity[1] -= 1 * SPEED
         if keys[3]: # Down
-            self._velocity[1] = 1 * SPEED
+            self._velocity[1] += 1 * SPEED
         
-        self._position[0] += self._velocity[0]
-        self._position[1] += self._velocity[1]
-        self.rect = self.rect.move(self._velocity)
-        self.rect = self.rect.clamp(self._map.screenrect)
+        self._position = (self._position[0] + self._velocity[0], self._position[1] + self._velocity[1])
+        self.rect.center = self._position
 
 
 class Bullet(Entity, pygame.sprite.Sprite):
@@ -121,12 +124,10 @@ class Bullet(Entity, pygame.sprite.Sprite):
 
     def __init__(self, player, map, direction):
         pygame.sprite.Sprite.__init__(self)
-        self._position = player.position
         self._map = map
         self.image = self.images[0]
-        self.rect = self.image.get_rect(center=(player.playerrect.centerx, player.playerrect.centery))
-        #self._bulletrect = self._image.get_rect(center=player.position)
-        #self._bulletrect = self._bulletrect.move(player._playerrect().centerx, player._playerrect().centery)
+        self.rect = self.image.get_rect(center=player.playerrect.center)
+        self._position = self.rect.center
         if direction == 1:
             self._velocity = player.velocity[0],player.velocity[1]-2
         if direction == 2:
@@ -145,16 +146,9 @@ class Bullet(Entity, pygame.sprite.Sprite):
     def position(self):
         return self._position
 
-    # def touching_border(self, size):
-    #     if 0 > self._bulletrect.left or self._bulletrect.left > size[0]:
-    #         self.kill()
-    #     if 0 > self._bulletrect.top or self._bulletrect.top > size[0]:
-    #         self.kill()
-
     def update(self):
-        self._position[0] += 0#self._velocity[0]
-        self._position[1] += 0#self._velocity[1]
-        self.rect.move_ip(self._velocity)
+        self._position = (self._position[0] + self._velocity[0], self._position[1] + self._velocity[1])
+        self.rect.center = self._position
 
         if(
             self.rect.top < self._map.screenrect.top

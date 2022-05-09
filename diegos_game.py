@@ -26,6 +26,7 @@ def main():
     reload_count = 0
     spawn_count = 0
     difficulty = 0
+    score = 0
 
     # Load sprite images
     enemy_images = (
@@ -48,7 +49,8 @@ def main():
 
     bullets = pygame.sprite.Group()
 
-    while True:
+    alive = True
+    while alive:
         map.fill_map(0,0,0)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -81,14 +83,12 @@ def main():
         spawn_count -= 1 + difficulty
 
         for enemy in pygame.sprite.groupcollide(enemies, bullets, 0, 1).keys():
-            enemy.hurt()
-            difficulty += 0.03
-            print('Difficulty: ', difficulty)
+            if enemy.hurt():
+                score += 1
+            difficulty += 0.02
 
         for diego in pygame.sprite.groupcollide(diegos, enemies, 1, 0).keys():
-            print('You died!')
-            pygame.quit()
-            sys.exit()
+            alive = False
 
         bullets.update()
         bullets.draw(map.screen)
@@ -100,6 +100,31 @@ def main():
         # This part should be in the view class
         
         
+        pygame.display.flip()
+
+        clock.tick(60)
+
+    while True:
+        map.fill_map(0,0,0)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()                
+                sys.exit()
+
+        font = pygame.font.Font(None, 72)
+        text1 = font.render('Game Over', True, (255, 0, 0))
+        text_rect1 = text1.get_rect()
+        text_rect1.centerx = map.screenrect.centerx
+        text_rect1.centery = map.screenrect.centery - 25
+
+        text2 = font.render(str(score), True, (255, 255, 255))
+        text_rect2 = text2.get_rect()
+        text_rect2.centerx = map.screenrect.centerx
+        text_rect2.centery = map.screenrect.centery + 25
+
+        map.screen.blit(text1, text_rect1)
+        map.screen.blit(text2, text_rect2)
         pygame.display.flip()
 
         clock.tick(60)
