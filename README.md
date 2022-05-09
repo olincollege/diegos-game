@@ -14,6 +14,7 @@ add unique features
 
 add gif or smthn
 
+
 ## Setup
 
 ### To Run in Terminal
@@ -26,13 +27,15 @@ See if it has succesfully installed by running the included example:
 
 `python3 -m pygame.examples.aliens`
 
+
 ## Links
 
 [GitHub Repo Link](https://github.com/olincollege/diegos-game)
 
 [Project Download Link](https://github.com/olincollege/diegos-game/archive/refs/heads/main.zip)
 
-## About Us
+
+## About the Creators
 
 ### Milo Song-Weiss
 
