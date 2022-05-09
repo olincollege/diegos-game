@@ -1,30 +1,36 @@
 """
 Diego's game controller.
 """
-import sys, pygame
-from abc import ABC, abstractmethod
+import pygame
 
-class PlayerController(ABC):
+class PlayerController():
     """
+    Keyboard based controller for the game that takes keystrokes from WASD and
+    arrow keys.
+
+    Attributes:
+        moving_right: A boolean flag indicating a pressed D key.
+        moving_left: A boolean flag indicating a pressed A key.
+        moving_up: A boolean flag indicating a pressed W key.
+        moving_down: A boolean flag indicating a pressed S key.
     """
     moving_right = False
     moving_left = False
     moving_up = False
     moving_down = False
 
-    def __init__(self, map):
+    def __init__(self):
         """
+        No initialization needs to be done for the controller
         """
-        self._map = map
-
-    @property
-    def map(self):
-        """
-        """
-        return self._map
 
     def get_movement(self):
         """
+        Get keystrokes from the WASD keys on the keyboard to control the
+        player.
+
+        Returns:
+            A list of boolean key flags representing which keys are pressed.
         """
         keystate = pygame.key.get_pressed()
 
@@ -48,9 +54,16 @@ class PlayerController(ABC):
             self.moving_up,
             self.moving_down
             ]
+
     def shot(self):
+        """
+        Get keystrokes from the arrow keys on the keyboard to control the
+        player's shots.
 
-
+        Returns:
+            A number representing which key is pressed.
+            2:right, 4:left, 1:up, 3:down, 5:other
+        """
         keystate = pygame.key.get_pressed()
 
         if keystate[pygame.K_RIGHT]:
@@ -62,17 +75,3 @@ class PlayerController(ABC):
         if keystate[pygame.K_DOWN]:
             return 3
         return 5
-
-    def last_pressed(self):
-        keystate = pygame.key.get_pressed()
-
-        if keystate[pygame.K_RIGHT]:
-            return 2
-        if keystate[pygame.K_LEFT]:
-            return 4
-        if keystate[pygame.K_UP]:
-            return 1
-        if keystate[pygame.K_DOWN]:
-            return 3
-        return 2
-        

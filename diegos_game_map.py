@@ -1,24 +1,19 @@
 """
-Diego's game map implementation.
+Diego's game map/view implementation.
 """
-import sys, pygame
+import pygame
 from pygame.locals import *
 
 
 class DiegosGameMap():
     """
-    
+    Pygame window view of diego's game map.
     """
 
     def __init__(self):
         """
         Create a new, empty map.
         """
-        # Writing the following ensures that each square of the board is
-        # independent from each other. Writing something like
-        # [[" "] * 3] * 3
-        # will cause the board to be made up of copies of the same cell,
-        # resulting in strange behavior.
         self._size = width, height = 320, 240
         self._screenrect = Rect(0, 0, width, height)
         self._background = (0, 0, 0)
@@ -27,34 +22,61 @@ class DiegosGameMap():
     @property
     def screenrect(self):
         """
+        Return the screen's rect.
         """
         return self._screenrect
 
     def size(self):
         """
+        Return the screen's size.
         """
         return self._size
 
     def background(self):
         """
+        Return the background color.
         """
         return self._background
 
-    def fill_map(self, r, g, b):
+    def fill_map(self, red, green, blue):
         """
-        """
-        self.screen.fill((r, g, b))
+        Fill the window's background with a solid color
 
-    def display_object(self, image, rect):
+        Args:
+            red: integer representing the red value of the color.
+            green: integer representing the green value of the color.
+            blue: integer representing the blue value of the color.
         """
-        """
-        self.screen.blit(image, rect)
+        self.screen.fill((red, green, blue))
 
-    def display_bullet(self, image, rect, x, y):
+    def end_screen(self, score):
         """
+        Put up the end splash screen when you die.
+
+        Args:
+            score: integer representing the final score of the game.
         """
-        self.screen.blit(image, rect, (x, y))
+        font = pygame.font.Font(None, 72)
+        text1 = font.render('Game Over', True, (255, 0, 0))
+        text_rect1 = text1.get_rect()
+        text_rect1.centerx = self._screenrect.centerx
+        text_rect1.centery = self._screenrect.centery - 25
 
+        text2 = font.render(str(score), True, (255, 255, 255))
+        text_rect2 = text2.get_rect()
+        text_rect2.centerx = self._screenrect.centerx
+        text_rect2.centery = self._screenrect.centery + 25
 
-    #def check_win(self):
-        #
+        self.screen.blit(text1, text_rect1)
+        self.screen.blit(text2, text_rect2)
+
+    def draw_n_update_groups(self, groups):
+        """
+        Draw and update all groups of sprites on screen.
+
+        Args:
+            groups: list of pygame sprite groups.
+        """
+        for group in groups:
+            group.draw(self.screen)
+            group.update()

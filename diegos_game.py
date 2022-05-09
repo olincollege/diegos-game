@@ -1,7 +1,9 @@
-import sys, pygame
+"""
+Main program to run a game of Diego's Game! Fun fun fun! Weeeeeee.
+"""
+import sys
 import random
-
-from scipy.fftpack import diff
+import pygame
 from entity import Player, Bullet, Enemy
 from diegos_game_map import DiegosGameMap
 from diegos_game_controller import PlayerController
@@ -9,18 +11,14 @@ from diegos_game_controller import PlayerController
 clock = pygame.time.Clock()
 pygame.init()
 
-#size = width, height = 600, 400
-#black = 0, 0, 0
-
-#screen = pygame.display.set_mode(size)
-
-
-
 def main():
+    """
+    Play a game of Diego's Game.
+    """
     # Initialize MVC
-    map = DiegosGameMap()
-    controller = PlayerController(map)
-    diego = Player(controller, map)
+    map = DiegosGameMap() # View
+    controller = PlayerController() # Controller
+    diego = Player(controller, map) # Model
 
     # Initialize counters
     reload_count = 0
@@ -35,27 +33,30 @@ def main():
         pygame.image.load("enemy3.png")
     )
     Enemy.images = enemy_images
-
     bullet_images = (
         pygame.image.load("bullet.png"),
         None
     )
     Bullet.images = bullet_images
 
+    # Create sprite groups
     diegos = pygame.sprite.Group()
     diegos.add(diego)
-
     enemies = pygame.sprite.Group()
-
     bullets = pygame.sprite.Group()
 
+    # Main game loop
     alive = True
     while alive:
         map.fill_map(0,0,0)
+
+        # Check for quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()                
+                pygame.quit()
                 sys.exit()
+
+        # Check delay and shoot
         if reload_count < 0:
             if controller.shot() == 1:
                 bullets.add(Bullet(diego, map, 1))
@@ -70,7 +71,8 @@ def main():
                 bullets.add(Bullet(diego, map, 4))
                 reload_count = 30
         reload_count -= 1
-        
+
+        # Check delay and spawn enemy
         if spawn_count < 0:
             rand = random.random()
             if rand > 0.3:
@@ -82,49 +84,34 @@ def main():
             spawn_count = 60*1.7
         spawn_count -= 1 + difficulty
 
+        # Check for bullet/enemy collisions
         for enemy in pygame.sprite.groupcollide(enemies, bullets, 0, 1).keys():
             if enemy.hurt():
                 score += 1
             difficulty += 0.02
 
+        # Check for diego/enemy collision
         for diego in pygame.sprite.groupcollide(diegos, enemies, 1, 0).keys():
-            alive = False
+            alive = False   # End the main loop
 
-        bullets.update()
-        bullets.draw(map.screen)
-        enemies.update()
-        enemies.draw(map.screen)
-        diegos.update()
-        diegos.draw(map.screen)
+        # Draw and update groups of sprites
+        map.draw_n_update_groups([bullets, enemies, diegos])
 
-        # This part should be in the view class
-        
-        
         pygame.display.flip()
 
-        clock.tick(60)
+        clock.tick(60)  # Cap the framerate
 
+    # End game
     while True:
         map.fill_map(0,0,0)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()                
+                pygame.quit()
                 sys.exit()
 
-        font = pygame.font.Font(None, 72)
-        text1 = font.render('Game Over', True, (255, 0, 0))
-        text_rect1 = text1.get_rect()
-        text_rect1.centerx = map.screenrect.centerx
-        text_rect1.centery = map.screenrect.centery - 25
+        map.end_screen(score)
 
-        text2 = font.render(str(score), True, (255, 255, 255))
-        text_rect2 = text2.get_rect()
-        text_rect2.centerx = map.screenrect.centerx
-        text_rect2.centery = map.screenrect.centery + 25
-
-        map.screen.blit(text1, text_rect1)
-        map.screen.blit(text2, text_rect2)
         pygame.display.flip()
 
         clock.tick(60)
