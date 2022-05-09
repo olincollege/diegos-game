@@ -27,6 +27,8 @@ See if it has succesfully installed by running the included example:
 
 `python3 -m pygame.examples.aliens`
 
+See Links section below to download the game
+
 
 ## Links
 
