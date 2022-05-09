@@ -52,4 +52,4 @@ Milo loves anything outdoors. You can find him practicing catch-and-release in t
 
 ## Diego Riverbay
 
-Sports takes up a ton of Diego's time. Whether it's frisbee, tennis, bowling, or some other sport, he's always playing something. Outside of sports, Diego has had a passion for mechanical engineering and coding which he is having a blast learning in college.
+Sports takes up a ton of Diego's time. Whether it's frisbee, tennis, bowling, or some other sport, he's always playing something. Outside of sports, Diego has a passion for mechanical engineering and coding which he is having a blast learning in college.
