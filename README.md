@@ -32,10 +32,13 @@ See Links section below to download the game
 
 ## Links
 
-[GitHub Repo Link](https://github.com/olincollege/diegos-game)
+[GitHub Repo Link](https://github.com/olincollege/diegos-game/?target=_blank)
 
 [Project Download Link](https://github.com/olincollege/diegos-game/archive/refs/heads/main.zip)
 
+## External Resources
+
+We used [Pygame](https://www.pygame.org/news) to aid us in creating our game.
 
 ## About the Creators
 
